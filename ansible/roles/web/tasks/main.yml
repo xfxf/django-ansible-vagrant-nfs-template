@@ -1,0 +1,20 @@
+---
+
+- include: install_additional_packages.yml
+  tags: packages
+
+- include: create_users_and_groups.yml
+
+- include: setup_virtualenv.yml
+  tags: virtualenv
+  sudo_user: "{{ project_user }}"
+
+- include: setup_django_app.yml
+  tags: deploy
+  sudo_user: "{{ project_user }}"
+
+- include: setup_supervisor.yml
+  tags: supervisor
+
+- include: setup_nginx.yml
+  tags: nginx

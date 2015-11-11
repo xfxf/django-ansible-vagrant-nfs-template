@@ -1,0 +1,13 @@
+---
+
+server_root_dir: /vagrant
+
+celery_user: "{{ project_user }}"
+celery_group: webapps
+
+celery_django_project_name: celery
+celery_scripts_dir: "{{ virtualenv_path }}/scripts/celery"
+celery_template_file: "{{ celery_django_project_name }}_start.j2"
+
+celery_log_dir: "{{ vagrant_path }}/logs"
+celery_log_file: "{{ celery_log_dir }}/{{ celery_django_project_name }}.log"

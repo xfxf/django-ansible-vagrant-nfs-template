@@ -1,0 +1,41 @@
+---
+
+- name: Install Supervisor
+  apt: name=supervisor update_cache={{ update_apt_cache }} state=installed
+  tags:
+    - celery
+
+- name: Ensure supervisor service is started
+  service: name=supervisor state=started enabled=yes
+  tags:
+    - celery
+
+- name: Create the Supervisor config file for {{ celery_django_project_name }}
+  template: src=supervisor_{{ celery_django_project_name }}.conf.j2
+            dest=/etc/supervisor/conf.d/{{ celery_django_project_name }}.conf
+  tags:
+    - celery
+
+- name: Create the {{ celery_django_project_name }} log directory
+  file: path={{ celery_log_dir }}
+        state=directory
+  tags:
+    - celery
+  sudo_user: "{{ gunicorn_user }}"
+
+- name: Create the {{ celery_django_project_name }} log file
+  file: path={{ celery_log_file }}
+        state=touch
+  tags:
+    - celery
+  sudo_user: "{{ gunicorn_user }}"
+
+- name: Re-read the Supervisor config files
+  command: supervisorctl reread
+  tags:
+    - celery
+
+- name: Update Supervisor to add the app in the process group
+  command: supervisorctl update
+  tags:
+    - celery

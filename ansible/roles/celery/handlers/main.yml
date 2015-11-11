@@ -1,0 +1,4 @@
+---
+
+- name: restart {{ celery_django_project_name }}
+  supervisorctl: name={{ celery_django_project_name }} state=restarted

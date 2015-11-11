@@ -1,0 +1,16 @@
+---
+
+- name: Provision a {{ django_project_name }} db server
+  hosts: all
+  sudo: yes
+  sudo_user: root
+  remote_user: root
+  vars:
+    - update_apt_cache: yes
+  vars_files:
+    - env_vars/base.yml
+    - env_vars/{{ env }}.yml
+
+  roles:
+    - base
+    - db

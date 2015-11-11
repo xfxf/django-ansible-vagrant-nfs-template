@@ -1,0 +1,28 @@
+---
+
+- name: Generate random django secret
+  hosts: all
+  tasks:
+    - shell: openssl rand 32 | base64
+      register: django_secret_key
+
+- name: Create a {{ django_project_name }} virtual machine via vagrant
+  hosts: all
+  sudo: yes
+  sudo_user: root
+  remote_user: vagrant
+  vars:
+    - setup_git_repo: yes
+    - update_apt_cache: yes
+
+  vars_files:
+    - env_vars/base.yml
+    - env_vars/development.yml
+
+  roles:
+    - localrepo
+    - base
+    - db
+    - rabbitmq
+    - web
+    - celery

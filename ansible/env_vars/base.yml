@@ -1,0 +1,16 @@
+---
+
+
+# Project settings (change this)
+project_root: example_project
+django_project_name: example_project
+# see development.yml also
+
+# Location settings (change this)
+ubuntu_mirror_url: "http://mirror.aarnet.edu.au/ubuntu/"
+
+# Common settings
+vagrant_path: "/vagrant"
+project_user: "vagrant"
+virtualenv_path: "/home/{{ project_user }}/virtualenv"
+vagrant_app_path: "{{ vagrant_path }}/{{ project_root }}"

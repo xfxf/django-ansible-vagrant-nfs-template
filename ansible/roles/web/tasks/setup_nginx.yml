@@ -1,0 +1,31 @@
+---
+
+- name: Install Nginx
+  apt: name=nginx update_cache={{ update_apt_cache }} state=installed
+  tags: packages
+
+- name: Make tls directory
+  command: mkdir /etc/ssl/tls creates=/etc/ssl/tls
+
+- name: Make tls keypair
+  command: openssl req -new -nodes -x509 -subj "/C=AU/ST=Victoria/L=Melbourne/O=ZZ Development Environment/CN={{nginx_server_name}}" -days 3650 -keyout {{ ssl_dest_dir }}/{{ django_project_name }}.key -out {{ ssl_dest_dir }}/{{ django_project_name }}.crt -extensions v3_ca creates={{ ssl_dest_dir }}/{{ django_project_name }}.crt
+
+- name: Create the Nginx configuration file
+  template: src=nginx_site_config.j2
+            dest=/etc/nginx/sites-available/{{ django_project_name }}
+            backup=yes
+  notify: reload nginx
+
+- name: Ensure that the default site is disabled
+  command: rm /etc/nginx/sites-enabled/default
+           removes=/etc/nginx/sites-enabled/default
+  notify: reload nginx
+
+- name: Ensure that the application site is enabled
+  command: ln -s /etc/nginx/sites-available/{{ django_project_name }}
+           /etc/nginx/sites-enabled/{{ django_project_name }}
+           creates=/etc/nginx/sites-enabled/{{ django_project_name }}
+  notify: reload nginx
+
+- name: Ensure Nginx service is started
+  service: name=nginx state=started enabled=yes

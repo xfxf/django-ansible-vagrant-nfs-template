@@ -1,0 +1,5 @@
+---
+- name: Change Ubuntu to local mirror
+  template: src={{ sources_template_file }}
+            dest=/etc/apt/sources.list
+            mode=0755

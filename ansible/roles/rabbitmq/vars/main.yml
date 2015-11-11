@@ -1,0 +1,10 @@
+---
+
+rabbitmq_server_name: "{{ project_hostname }}"
+
+rabbitmq_admin_user: admin
+rabbitmq_admin_password: password
+
+rabbitmq_application_vhost: "{{ django_project_name }}"
+rabbitmq_application_user: "{{ project_user }}"
+rabbitmq_application_password: password
