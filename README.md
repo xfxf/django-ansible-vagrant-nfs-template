@@ -47,9 +47,9 @@ Ensure you have the tools in Requirements below installed.
 Your django project is designed to replace example_project/*
 
 1. ```git clone``` this repo
-2. either create a new django project or copy in your existing Django project to the project root (for example, 'django-votingtool').
-3. edit ansible/env_vars/base.yml and development.yml to reflect your Django project details & hostname
-4. migrate over from example_project: project/project/celery.py, and env settings from project/project/settings.py
+2. (skip if doing default example_project deploy) Either use example_project as a basis for a new Django project, or replace it with your Django project (for example, 'django-votingtool' - see expected project structure below).
+3. (skip if doing default example_project deploy) edit ansible/env_vars/base.yml and development.yml to reflect your Django project details & hostname/IP
+4. (skip if doing default example_project deploy) If you've deployed a different Django project, migrate over appropriate settings from project/project/celery.py, project/project/settings.py
 5. ```vagrant up```
 6. After deploy, access your project by going to the appropriate URL. i.e.: https://exampleproject.local or https://192.168.42.100
 
